@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
+import Navbar from "./Components/Navbar";
+import List from "./Components/List";
 
 function App() {
+  const [agents, setAgents] = useState([]);
+
+  // const getData = async () => {
+  //   const req = await fetch("https://valorant-api.com/v1/agents", params);
+  //   const res = await req.json();
+  //   console.log(res);
+  // };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    const response = await fetch("https://valorant-api.com/v1/agents");
+    const data = await response.json();
+
+    setAgents(data.data);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+      <div className="App">
+        <List data={agents} />
+      </div>
+    </>
   );
 }
 
